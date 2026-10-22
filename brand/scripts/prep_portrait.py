@@ -1,27 +1,38 @@
 """Remove the sports-team logo from the cap and crop the portrait for the badge."""
 import random
-from PIL import Image, ImageFilter
+import numpy as np
+from PIL import Image, ImageDraw, ImageFilter
 
 src = Image.open("source/brandon-illustration.png").convert("RGB")
-im = src.copy()
-px = im.load()
-random.seed(7)
+a = np.asarray(src).astype(float)
+H, W, _ = a.shape
 
-# Fill the cap logo area row by row, blending between clean cap pixels on each side.
-X0, X1, Y0, Y1 = 268, 404, 274, 350
-for y in range(Y0, Y1):
-    left = [sum(c) / 3 for c in (px[X0 - 6, y], px[X0 - 4, y], px[X0 - 2, y])]
-    right = [sum(c) / 3 for c in (px[X1 + 2, y], px[X1 + 4, y], px[X1 + 6, y])]
-    lc = sorted([px[X0 - k, y] for k in (2, 4, 6, 8)], key=sum)[2]
-    rc = sorted([px[X1 + k, y] for k in (2, 4, 6, 8)], key=sum)[2]
-    for x in range(X0, X1):
-        t = (x - X0) / (X1 - X0)
-        n = random.randint(-4, 4)
-        px[x, y] = tuple(int(lc[i] * (1 - t) + rc[i] * t + n) for i in range(3))
+# Tight outline around the old cap logo, kept inside the cap's front panel.
+LOGO = [(282, 288), (300, 276), (330, 272), (345, 272), (380, 274), (398, 280), (405, 300),
+        (403, 330), (393, 349), (340, 350), (290, 349), (271, 335), (265, 310)]
+mask = Image.new("L", (W, H), 0)
+ImageDraw.Draw(mask).polygon(LOGO, fill=255)
+m = np.asarray(mask) > 0
 
-# Soften the patch edges so it blends in.
-patch = im.crop((X0 - 4, Y0 - 2, X1 + 4, Y1 + 2)).filter(ImageFilter.GaussianBlur(1.6))
-im.paste(patch, (X0 - 4, Y0 - 2))
+# Learn the cap's shading from clean cap pixels around the logo (plane fit per color).
+ring = np.asarray(mask.filter(ImageFilter.MaxFilter(31))) > 0
+ring &= ~(np.asarray(mask.filter(ImageFilter.MaxFilter(5))) > 0)
+s = a.sum(axis=2)
+capish = ring & (s > 270) & (s < 470) & (np.abs(a[..., 0] - a[..., 2]) < 25)
+ys, xs = np.nonzero(capish)
+X = np.c_[xs, ys, np.ones_like(xs)]
+coef = [np.linalg.lstsq(X, a[ys, xs, c], rcond=None)[0] for c in range(3)]
+
+rng = np.random.default_rng(7)
+my, mx = np.nonzero(m)
+fill = a.copy()
+for c in range(3):
+    fill[my, mx, c] = coef[c][0] * mx + coef[c][1] * my + coef[c][2] + rng.normal(0, 2.5, len(mx))
+fill_im = Image.fromarray(np.clip(fill, 0, 255).astype("uint8")).filter(ImageFilter.GaussianBlur(0.8))
+
+# Feather the edge so the patch blends in.
+soft = mask.filter(ImageFilter.GaussianBlur(2))
+im = Image.composite(fill_im, src, soft)
 im.save("source/brandon-clean.png")
 
 # Square crop centered on the face, head and shoulders.

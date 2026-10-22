@@ -54,7 +54,7 @@ PAGES["instagram-post-template"] = (1080, 1350, f"""<body style="background:{CRE
 <div class="h" style="font-size:104px;line-height:1.02;color:{INK};margin-top:20px">Your headline goes right here.</div>
 <div style="font-size:36px;line-height:1.4;color:{FLANNEL};margin-top:40px;max-width:820px">One or two short lines of helpful detail. Keep it simple and useful.</div>
 <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;border-top:6px solid {HONEY};padding-top:30px">
-<div class="o" style="font-size:30px;color:{INK}">Book your list today</div><div style="font-weight:800;font-size:30px;color:{INK}">(512) 000-0000</div></div></body>""")
+<div class="o" style="font-size:30px;color:{INK}">Book your list today</div><div style="font-weight:800;font-size:30px;color:{INK}">(512) 262-8214</div></div></body>""")
 
 # Instagram / Facebook story 1080x1920
 PAGES["story-template"] = (1080, 1920, f"""<body style="background:{INK};color:{CREAM};padding:120px 90px;display:flex;flex-direction:column;align-items:center;text-align:center">
@@ -71,14 +71,14 @@ PAGES["business-card-front"] = (1050, 600, f"""<body style="background:{INK};dis
 <div class="o" style="font-size:24px">Your honey-do list, done.</div></div></body>""")
 PAGES["business-card-back"] = (1050, 600, f"""<body style="background:{CREAM};color:{INK};padding:70px 80px;display:flex;flex-direction:column;justify-content:space-between">
 <div><div class="h" style="font-size:58px">Brandon</div><div class="o" style="font-size:24px;color:{EMBER};margin-top:8px">Owner, Lead Handyman</div></div>
-<div style="font-size:30px;line-height:1.6;font-weight:600">(512) 000-0000<br>hello@atxtotalproperties.com<br>atxtotalproperties.com</div>
+<div style="font-size:30px;line-height:1.6;font-weight:600">(512) 262-8214<br>hello@atxtotalproperties.com<br>atxtotalproperties.com</div>
 <div style="display:flex;justify-content:space-between;align-items:end"><div class="o" style="font-size:20px;color:{FLANNEL}">Austin, TX and surrounding areas</div>{inline('atx-icon-mark-plain', 90)}</div></body>""")
 
 # Yard sign / truck magnet 24x18 proportion
 PAGES["yard-sign"] = (2400, 1800, f"""<body style="background:{INK};color:{CREAM};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:50px;text-align:center">
 {inline('atx-badge-primary', 760)}
 <div class="h" style="font-size:150px;line-height:1">Honey-do list? <span style="color:{EMBER}">Done.</span></div>
-<div style="font-family:Inter;font-weight:800;font-size:140px;color:{HONEY}">(512) 000-0000</div></body>""")
+<div style="font-family:Inter;font-weight:800;font-size:140px;color:{HONEY}">(512) 262-8214</div></body>""")
 
 for name, (w, h, body) in PAGES.items():
     with open(f"kit/html/{name}.html", "w") as f:

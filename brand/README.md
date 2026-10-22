@@ -29,4 +29,4 @@
 2. Use the **icon mark** (house + check) when the badge is too small to read (under ~150px).
 3. Keep clear space around logos equal to the height of the "A" in ATX.
 4. Do not stretch, recolor, or add effects to the logo.
-5. Replace `(512) 000-0000` and the email on templates with the real info.
+5. Phone is (512) 262-8214. Replace the email on templates with the real one.

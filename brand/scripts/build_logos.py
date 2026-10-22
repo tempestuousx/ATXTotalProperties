@@ -61,7 +61,7 @@ def badge(cx=500, cy=500, ring=EMBER, bg=INK, text_top=CREAM, text_bot=HONEY):
              f'<image x="{cx-310}" y="{cy-292}" width="620" height="620" '
              f'xlink:href="data:image/jpeg;base64,{PORTRAIT}" href="data:image/jpeg;base64,{PORTRAIT}"/></g>')
     # Brand mark on the cap (replaces the old team logo)
-    b.append(house_check(cx - 42, cy - 244, 76, stroke=INK, sw=5))
+    b.append(house_check(cx - 26.5, cy - 264, 84, stroke=INK, sw=5))
     b.append(f'<circle cx="{cx}" cy="{cy}" r="300" fill="none" stroke="{CREAM}" stroke-width="4"/>')
     # Arc text
     b.append(f'<path fill="{text_top}" d="{tp.arc_text("ATX TOTAL PROPERTIES", "ArchivoBlack-Regular.ttf", 74, cx, cy, 372, -90, tracking=0.04)}"/>')
